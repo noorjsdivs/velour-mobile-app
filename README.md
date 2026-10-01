@@ -1,10 +1,10 @@
 <div align="center">
 
-<a href="https://www.youtube.com/@reactjsbd" target="_blank" title="Watch the full build on the ReactJS BD YouTube channel">
+<a href="https://youtu.be/g3bdOoQzMgo" target="_blank" title="Watch the full build on the ReactJS BD YouTube channel">
   <img src="./cover.png" alt="Design it. Build it. — Velour: a full shopping app with an admin panel, from Claude Design to Claude Code" width="100%" />
 </a>
 
-<sub>▶️ <b>Click the cover to watch the full build on <a href="https://www.youtube.com/@reactjsbd">ReactJS BD on YouTube</a></b></sub>
+<sub>▶️ <b>Click the cover to watch the full build on <a href="https://youtu.be/g3bdOoQzMgo">ReactJS BD on YouTube</a></b></sub>
 
 # Velour: Claude Design → Claude Code
 
@@ -56,17 +56,18 @@ velour-mobile-app/
         └── ios-frame.jsx             ← iPhone frame used in the prototype
 ```
 
-| File | Purpose |
-| --- | --- |
+| File                           | Purpose                                                                       |
+| ------------------------------ | ----------------------------------------------------------------------------- |
 | `Velour Beauty App v4.dc.html` | The design Claude Code builds from: every screen, color, font, and component. |
-| `catalog.js` | Real product data that becomes the app's mock JSON. |
-| `PRD.md` | The stack, rules, and definition of done that Claude Code follows. |
+| `catalog.js`                   | Real product data that becomes the app's mock JSON.                           |
+| `PRD.md`                       | The stack, rules, and definition of done that Claude Code follows.            |
 
 ## What you'll build
 
 A production-quality **React Native + Expo** app with two sides:
 
 **🛍️ Shopper app**
+
 - Welcome, sign in / sign up, and forgot password
 - Home with a category marquee (Makeup · Skincare · Body · Hair · Fragrance · Gifts)
 - Shop and product list with grid/list views and filters
@@ -78,6 +79,7 @@ A production-quality **React Native + Expo** app with two sides:
 - Profile, saved addresses, payment methods, and help
 
 **🛠️ Admin panel**
+
 - Dashboard (revenue, orders, customers, AOV, daily revenue chart, sales breakdown)
 - Products with a product editor
 - Catalog
@@ -91,13 +93,13 @@ A production-quality **React Native + Expo** app with two sides:
 
 ## Prerequisites
 
-| Tool | Version | Check |
-| --- | --- | --- |
-| [Node.js](https://nodejs.org) | 20 LTS or newer | `node -v` |
-| [Git](https://git-scm.com) | any | `git --version` |
-| [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) | latest | `claude --version` |
-| Claude plan | Pro, Max, Team, or Enterprise (or an API key) | n/a |
-| [Expo Go](https://expo.dev/go) on your phone | latest | *or* the iOS Simulator (Xcode, macOS) / Android Emulator |
+| Tool                                                                | Version                                       | Check                                                    |
+| ------------------------------------------------------------------- | --------------------------------------------- | -------------------------------------------------------- |
+| [Node.js](https://nodejs.org)                                       | 20 LTS or newer                               | `node -v`                                                |
+| [Git](https://git-scm.com)                                          | any                                           | `git --version`                                          |
+| [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) | latest                                        | `claude --version`                                       |
+| Claude plan                                                         | Pro, Max, Team, or Enterprise (or an API key) | n/a                                                      |
+| [Expo Go](https://expo.dev/go) on your phone                        | latest                                        | _or_ the iOS Simulator (Xcode, macOS) / Android Emulator |
 
 Install Claude Code if you don't have it:
 
@@ -192,6 +194,7 @@ Rules:
 ### 2. Follow-up prompts (use as needed)
 
 **Audit against the design**
+
 ```text
 Go through Velour Beauty App v4.dc.html screen by screen and compare each one with
 what you built. List every mismatch in color, spacing, font size, radius, icon or
@@ -199,6 +202,7 @@ copy, then fix them all.
 ```
 
 **Make sure nothing is missing**
+
 ```text
 List every screen and every go('...') navigation target in the design file, and
 confirm each one exists in /app and is reachable by tapping through the app. Build
@@ -206,6 +210,7 @@ anything that's missing.
 ```
 
 **Verify the admin panel**
+
 ```text
 Walk the admin panel flow end to end: dashboard → products → edit product → orders
 → order detail → customers → customer detail → settings. Make sure every admin
@@ -213,6 +218,7 @@ screen matches the design and the data updates through Zustand.
 ```
 
 **Final quality pass**
+
 ```text
 Run npx expo-doctor and npx tsc --noEmit, fix every warning and error, remove any
 unused code, and confirm there are no TODOs or placeholder screens left.
@@ -238,15 +244,15 @@ npx tsc --noEmit          # type-checks the whole project
 
 ## Tips for working with Claude Code
 
-| Do this | Why |
-| --- | --- |
-| Run `/init` after the first build | Creates a `CLAUDE.md` so future sessions know your stack and conventions. |
-| Use **plan mode** (`Shift + Tab`) for big changes | You review the plan before any file changes. |
-| Ask for one screen at a time when fixing details | Smaller tasks give more precise results. |
-| Paste screenshots straight into the terminal | Claude can compare your simulator against the design visually. |
-| Use `/clear` between unrelated tasks | Keeps the context focused. |
-| Commit after each working milestone | `git commit` gives you a safe point to roll back to. |
-| Press `Esc` to interrupt, `Esc Esc` to rewind | Steer the work as soon as it goes off track. |
+| Do this                                           | Why                                                                       |
+| ------------------------------------------------- | ------------------------------------------------------------------------- |
+| Run `/init` after the first build                 | Creates a `CLAUDE.md` so future sessions know your stack and conventions. |
+| Use **plan mode** (`Shift + Tab`) for big changes | You review the plan before any file changes.                              |
+| Ask for one screen at a time when fixing details  | Smaller tasks give more precise results.                                  |
+| Paste screenshots straight into the terminal      | Claude can compare your simulator against the design visually.            |
+| Use `/clear` between unrelated tasks              | Keeps the context focused.                                                |
+| Commit after each working milestone               | `git commit` gives you a safe point to roll back to.                      |
+| Press `Esc` to interrupt, `Esc Esc` to rewind     | Steer the work as soon as it goes off track.                              |
 
 ## Troubleshooting
 
@@ -254,30 +260,35 @@ npx tsc --noEmit          # type-checks the whole project
 <summary><b>Claude can't find the design file</b></summary>
 
 The design is at `velour-beauty-shop-app/project/Velour Beauty App v4.dc.html` (not `design/…`). Make sure you started `claude` from the repo root, and use the prompt above, which already points to the correct path.
+
 </details>
 
 <details>
 <summary><b>The design file is too large to read in one go</b></summary>
 
-`v4` is about 370 KB. Ask Claude to *"read it in chunks and grep for every screen key before building."* It will page through the file.
+`v4` is about 370 KB. Ask Claude to _"read it in chunks and grep for every screen key before building."_ It will page through the file.
+
 </details>
 
 <details>
 <summary><b>NativeWind styles aren't applying</b></summary>
 
-Run `npx expo start -c` to clear the cache. Then check that `babel.config.js`, `metro.config.js`, and `global.css` are set up following the NativeWind docs for your installed version. You can also ask Claude: *"NativeWind classes aren't applying, check the setup."*
+Run `npx expo start -c` to clear the cache. Then check that `babel.config.js`, `metro.config.js`, and `global.css` are set up following the NativeWind docs for your installed version. You can also ask Claude: _"NativeWind classes aren't applying, check the setup."_
+
 </details>
 
 <details>
 <summary><b>Version mismatch warnings from expo-doctor</b></summary>
 
 Run `npx expo install --fix`, then run `npx expo-doctor` again.
+
 </details>
 
 <details>
 <summary><b>Fonts look wrong</b></summary>
 
 The design uses **Archivo** (variable width and weight). Ask Claude to load it with `@expo-google-fonts/archivo` and to hold the splash screen until the fonts finish loading.
+
 </details>
 
 ## Use your own design
