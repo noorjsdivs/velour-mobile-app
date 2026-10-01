@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#E9E9E9;-webkit-font-smoothing:antialiased}a{color:#000000}a:hover{color:#D4002A}*::-webkit-scrollbar{display:none}input::placeholder{color:#9A9A9A}button{font-family:inherit}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;justify-content:center;align-items:flex-start;gap:56px;padding:40px 24px;box-sizing:border-box;font-family:'Archivo',sans-serif;flex-wrap:wrap;color:#000000">
+  <sc-if value="{{ showMap }}" hint-placeholder-val="{{ true }}">
+    <div style="width:260px;display:flex;flex-direction:column;gap:20px;padding-top:24px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="font:800 condensed 44px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px;letter-spacing:-0.5px">Velour</div>
+        <div style="font:400 14px/1.5 'Archivo',sans-serif;color:#595959;text-wrap:pretty">Beauty shopping prototype — every screen is live. Jump anywhere, or just use the phone.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ flow }}" as="f" hint-placeholder-count="11">
+          <button onClick="{{ f.go }}" style="display:flex;align-items:center;gap:12px;border:none;background:{{ f.bg }};color:{{ f.fg }};padding:9px 12px;border-radius:10px;cursor:pointer;text-align:left;font:500 14px 'Archivo',sans-serif" style-hover="background:#E2E2E2">
+            <span style="font:600 11px ui-monospace,Menlo,monospace;opacity:.6;width:18px">{{ f.n }}</span>
+            <span>{{ f.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="font:400 13px/1.5 'Archivo',sans-serif;color:#595959;border-top:1px solid #D6D6D6;padding-top:16px">Try promo code <b style="color:#000000">GLOW15</b> in the bag for 15% off.</div>
+    </div>
+  </sc-if>
+
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ statusDark }}" hint-size="402px,874px">
+    <div style="height:100%;display:flex;flex-direction:column;background:#FFFFFF;position:relative;color:#000000;font-family:'Archivo',sans-serif">
+      <div ref="{{ scrollRef }}" style="flex:1;overflow-y:auto;overflow-x:hidden;position:relative;padding-bottom:{{ scrollPad }}px">
+
+        <!-- WELCOME -->
+        <sc-if value="{{ is.welcome }}" hint-placeholder-val="{{ true }}">
+          <div style="height:874px;box-sizing:border-box;display:flex;flex-direction:column;background:#000000;color:#FFFFFF;padding:70px 22px 48px;position:relative;overflow:hidden">
+            <div style="display:flex;justify-content:space-between;align-items:center;font:700 10px 'Archivo',sans-serif;letter-spacing:2px"><span>BEAUTY FOR ALL</span><span>EST. 2021</span></div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:16px">
+              <div style="display:flex;flex-direction:column;align-items:center;transform:rotate(-8deg)"><div style="width:20px;height:44px;background:#FFFFFF;border-radius:4px"></div><div style="width:70px;height:118px;background:#EACBB1;border-radius:10px"></div></div>
+              <div style="display:flex;flex-direction:column;align-items:center"><div style="width:50px;height:36px;background:#D4002A;border-radius:4px"></div><div style="width:118px;height:132px;background:#3A3A3A;border-radius:18px;box-shadow:inset -12px 0 20px rgba(255,255,255,.06)"></div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;transform:rotate(8deg)"><div style="width:32px;height:50px;background:#9E4A48;border-radius:4px"></div><div style="width:38px;height:64px;background:#C9A46A;border-radius:4px"></div></div>
+            </div>
+            <div style="font:900 condensed 104px/0.82 'Archivo',sans-serif;letter-spacing:-2px;margin-left:-4px">VELOUR</div>
+            <div style="display:flex;gap:6px;margin:16px 0 8px"><span style="flex:1;height:10px;background:#EACBB1"></span><span style="flex:1;height:10px;background:#D9B79C"></span><span style="flex:1;height:10px;background:#C19070"></span><span style="flex:1;height:10px;background:#8E5E43"></span><span style="flex:1;height:10px;background:#5B3A2A"></span></div>
+            <div style="font:400 15px/1.5 'Archivo',sans-serif;color:#CFCFCF;margin:8px 0 26px;text-wrap:pretty">50 shades. Clean formulas. Free returns on everything.</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button onClick="{{ goSignup }}" style="height:56px;border:none;border-radius:2px;background:#FFFFFF;color:#000000;font:800 13px 'Archivo',sans-serif;letter-spacing:1.6px;text-transform:uppercase;cursor:pointer" style-active="transform:scale(.98)">Create account</button>
+              <button onClick="{{ goLogin }}" style="height:56px;border:1.5px solid #FFFFFF;border-radius:2px;background:transparent;color:#FFFFFF;font:800 13px 'Archivo',sans-serif;letter-spacing:1.6px;text-transform:uppercase;cursor:pointer" style-active="transform:scale(.98)">Sign in</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- LOGIN -->
+        <sc-if value="{{ is.login }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:62px 24px 40px;display:flex;flex-direction:column;gap:22px">
+            <button onClick="{{ goWelcome }}" style="width:44px;height:44px;border-radius:50%;border:1px solid #E4E4E4;background:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+            <div>
+              <div style="font:800 condensed 42px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px;letter-spacing:-0.5px">Welcome back</div>
+              <div style="font:400 15px/1.5 'Archivo',sans-serif;color:#595959;margin-top:8px">Sign in to see your bag, orders and saved shades.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">Email
+                <input value="{{ email }}" onChange="{{ onEmail }}" type="email" placeholder="you@example.com" style="width:100%;box-sizing:border-box;height:52px;border-radius:4px;border:1px solid {{ emailBorder }};background:#FFFFFF;padding:0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none" style-focus="border-color:#000000">
+                <sc-if value="{{ errors.email }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px 'Archivo',sans-serif;color:#C4001F">{{ errors.email }}</span></sc-if>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">Password
+                <div style="position:relative">
+                  <input value="{{ password }}" onChange="{{ onPassword }}" type="{{ pwType }}" placeholder="At least 6 characters" style="width:100%;box-sizing:border-box;height:52px;border-radius:4px;border:1px solid {{ pwBorder }};background:#FFFFFF;padding:0 64px 0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none" style-focus="border-color:#000000">
+                  <button onClick="{{ togglePw }}" type="button" style="position:absolute;right:8px;top:8px;height:36px;padding:0 10px;border:none;background:transparent;font:600 12px 'Archivo',sans-serif;color:#595959;cursor:pointer">{{ pwLabel }}</button>
+                </div>
+                <sc-if value="{{ errors.password }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px 'Archivo',sans-serif;color:#C4001F">{{ errors.password }}</span></sc-if>
+              </label>
+              <div style="display:flex;justify-content:flex-end"><button onClick="{{ forgot }}" style="border:none;background:none;font:500 13px 'Archivo',sans-serif;color:#000000;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px 0">Forgot password?</button></div>
+            </div>
+            <button onClick="{{ doLogin }}" style="height:56px;border:none;border-radius:2px;background:#000000;color:#FFFFFF;font:700 14px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;opacity:{{ btnOpacity }}" style-active="transform:scale(.98)">{{ loginLabel }}</button>
+            <div style="display:flex;align-items:center;gap:12px;font:500 12px 'Archivo',sans-serif;color:#707070"><div style="flex:1;height:1px;background:#E4E4E4"></div>or<div style="flex:1;height:1px;background:#E4E4E4"></div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <button onClick="{{ social }}" style="height:52px;border:1px solid #E4E4E4;border-radius:2px;background:#FFFFFF;font:600 14px 'Archivo',sans-serif;color:#000000;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="18" viewBox="0 0 16 19" fill="#000000"><path d="M13.2 10.1c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8C3.7 4.9 2.3 5.8 1.5 7.2c-1.6 2.8-.4 6.9 1.2 9.1.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 3-.7s1.8.7 3 .7c1.2 0 2-1.1 2.8-2.2.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-.9-2.5-3.700zM10.9 3.3c.6-.8 1.1-1.8.9-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1.1.1 2.1-.5 2.8-1.3z"></path></svg>Apple</button>
+              <button onClick="{{ social }}" style="height:52px;border:1px solid #E4E4E4;border-radius:2px;background:#FFFFFF;font:600 14px 'Archivo',sans-serif;color:#000000;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span style="font:700 16px 'Archivo',sans-serif">G</span>Google</button>
+            </div>
+            <div style="text-align:center;font:400 14px 'Archivo',sans-serif;color:#595959">New to Velour? <button onClick="{{ goSignup }}" style="border:none;background:none;font:600 14px 'Archivo',sans-serif;color:#000000;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0">Create an account</button></div>
+          </div>
+        </sc-if>
+
+        <!-- SIGNUP -->
+        <sc-if value="{{ is.signup }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:62px 24px 40px;display:flex;flex-direction:column;gap:22px">
+            <button onClick="{{ goWelcome }}" style="width:44px;height:44px;border-radius:50%;border:1px solid #E4E4E4;background:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+            <div>
+              <div style="font:800 condensed 42px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px;letter-spacing:-0.5px">Create account</div>
+              <div style="font:400 15px/1.5 'Archivo',sans-serif;color:#595959;margin-top:8px">Members get 10% off their first order and early access to drops.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">Full name
+                <input value="{{ name }}" onChange="{{ onName }}" placeholder="Aria Chen" style="width:100%;box-sizing:border-box;height:52px;border-radius:4px;border:1px solid {{ nameBorder }};background:#FFFFFF;padding:0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none" style-focus="border-color:#000000">
+                <sc-if value="{{ errors.name }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px 'Archivo',sans-serif;color:#C4001F">{{ errors.name }}</span></sc-if>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">Email
+                <input value="{{ email }}" onChange="{{ onEmail }}" type="email" placeholder="you@example.com" style="width:100%;box-sizing:border-box;height:52px;border-radius:4px;border:1px solid {{ emailBorder }};background:#FFFFFF;padding:0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none" style-focus="border-color:#000000">
+                <sc-if value="{{ errors.email }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px 'Archivo',sans-serif;color:#C4001F">{{ errors.email }}</span></sc-if>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">Password
+                <input value="{{ password }}" onChange="{{ onPassword }}" type="password" placeholder="At least 6 characters" style="width:100%;box-sizing:border-box;height:52px;border-radius:4px;border:1px solid {{ pwBorder }};background:#FFFFFF;padding:0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none" style-focus="border-color:#000000">
+                <div style="display:flex;gap:4px;margin-top:2px"><div style="flex:1;height:3px;border-radius:2px;background:{{ pwStrength.a }}"></div><div style="flex:1;height:3px;border-radius:2px;background:{{ pwStrength.b }}"></div><div style="flex:1;height:3px;border-radius:2px;background:{{ pwStrength.c }}"></div></div>
+                <sc-if value="{{ errors.password }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px 'Archivo',sans-serif;color:#C4001F">{{ errors.password }}</span></sc-if>
+              </label>
+              <button onClick="{{ toggleAgree }}" type="button" style="display:flex;gap:12px;align-items:flex-start;border:none;background:none;padding:4px 0;text-align:left;cursor:pointer">
+                <span style="flex:none;width:22px;height:22px;border-radius:7px;border:1.5px solid {{ agreeBorder }};background:{{ agreeBg }};display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span>
+                <span style="font:400 13px/1.5 'Archivo',sans-serif;color:#595959">I agree to the Terms and Privacy Policy, and I'd like occasional emails about new launches.</span>
+              </button>
+              <sc-if value="{{ errors.agree }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px 'Archivo',sans-serif;color:#C4001F;margin-top:-8px">{{ errors.agree }}</span></sc-if>
+            </div>
+            <button onClick="{{ doSignup }}" style="height:56px;border:none;border-radius:2px;background:#000000;color:#FFFFFF;font:700 14px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;opacity:{{ btnOpacity }}" style-active="transform:scale(.98)">{{ signupLabel }}</button>
+            <div style="text-align:center;font:400 14px 'Archivo',sans-serif;color:#595959">Already a member? <button onClick="{{ goLogin }}" style="border:none;background:none;font:600 14px 'Archivo',sans-serif;color:#000000;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0">Sign in</button></div>
+          </div>
+        </sc-if>
+
+        <!-- HOME -->
+        <sc-if value="{{ is.home }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:54px 0 28px;display:flex;flex-direction:column;gap:24px">
+            <div style="background:#000000;color:#FFFFFF;text-align:center;padding:9px 12px;font:700 10px 'Archivo',sans-serif;letter-spacing:1.6px;text-transform:uppercase">Free shipping over $50 · Members get 10% off</div>
+            <div style="padding:0 20px;display:grid;grid-template-columns:44px 1fr 44px;align-items:center;margin-top:-6px">
+              <button onClick="{{ goShop }}" aria-label="Search" style="width:44px;height:44px;border:none;background:none;display:flex;align-items:center;justify-content:flex-start;cursor:pointer;padding:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></button>
+              <div style="text-align:center;font:900 condensed 30px/1 'Archivo',sans-serif;letter-spacing:4px">VELOUR</div>
+              <button onClick="{{ goBag }}" aria-label="Bag" style="position:relative;width:44px;height:44px;border:none;background:none;display:flex;align-items:center;justify-content:flex-end;cursor:pointer;padding:0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.9" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"></path><path d="M9 10V6a3 3 0 0 1 6 0v4" stroke-linecap="round"></path></svg>
+                <sc-if value="{{ bagCount }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:4px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:#D4002A;color:#FFFFFF;font:800 10px/18px 'Archivo',sans-serif;text-align:center;padding:0 4px;box-sizing:border-box">{{ bagCount }}</span></sc-if>
+              </button>
+            </div>
+            <div onClick="{{ openHero }}" style="margin:0 20px;border-radius:4px;background:#000000;color:#FFFFFF;padding:22px;position:relative;overflow:hidden;cursor:pointer;min-height:300px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between">
+              <div style="position:absolute;right:18px;bottom:30px;display:flex;align-items:flex-end;gap:10px">
+                <div style="display:flex;flex-direction:column;align-items:center;transform:rotate(-8deg)"><div style="width:26px;height:40px;background:#D4002A;border-radius:3px"></div><div style="width:30px;height:52px;background:#C9A46A;border-radius:3px"></div></div>
+                <div style="display:flex;flex-direction:column;align-items:center"><div style="width:44px;height:32px;background:#FFFFFF;border-radius:4px"></div><div style="width:104px;height:120px;background:#3A3A3A;border-radius:14px;box-shadow:inset -12px 0 20px rgba(255,255,255,.06)"></div></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="background:#D4002A;padding:5px 9px;font:800 10px 'Archivo',sans-serif;letter-spacing:1.6px">NEW DROP</span><span style="font:600 11px 'Archivo',sans-serif;letter-spacing:1.4px">HI, {{ firstNameU }}</span></div>
+              <div style="position:relative;max-width:190px">
+                <div style="font:900 condensed 52px/0.88 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.5px">After<br>dark<br>edit</div>
+                <div style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:#FFFFFF;color:#000000;border-radius:2px;padding:10px 14px;font:800 11px 'Archivo',sans-serif;letter-spacing:1.4px">SHOP · 15% OFF →</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;overflow-x:auto;padding:0 20px">
+              <sc-for list="{{ catTiles }}" as="c" hint-placeholder-count="5">
+                <button onClick="{{ c.go }}" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:8px;border:none;background:none;cursor:pointer;padding:0">
+                  <span style="width:64px;height:64px;border-radius:50%;background:{{ c.tile }};display:flex;align-items:center;justify-content:center;font:800 condensed 26px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px;color:#000000">{{ c.initial }}</span>
+                  <span style="font:500 12px 'Archivo',sans-serif;color:#000000">{{ c.label }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="padding:0 20px;display:flex;justify-content:space-between;align-items:baseline">
+                <div style="font:800 condensed 26px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Bestsellers</div>
+                <button onClick="{{ goShop }}" style="border:none;background:none;font:600 13px 'Archivo',sans-serif;color:#000000;cursor:pointer;text-decoration:underline;text-underline-offset:3px">See all</button>
+              </div>
+              <div style="display:flex;gap:12px;overflow-x:auto;padding:0 20px">
+                <sc-for list="{{ bestsellers }}" as="p" hint-placeholder-count="4">
+                  <div onClick="{{ p.open }}" style="flex:none;width:156px;display:flex;flex-direction:column;gap:10px;cursor:pointer">
+                    <div style="background:{{ p.tile }};border-radius:4px;height:188px;display:flex;align-items:center;justify-content:center;position:relative">
+                      <div style="display:flex;flex-direction:column;align-items:center">
+                        <div style="width:{{ p.cw }}px;height:{{ p.ch }}px;background:{{ p.capC }};border-radius:{{ p.cr }}px"></div>
+                        <div style="width:{{ p.bw }}px;height:{{ p.bh }}px;background:{{ p.bodyC }};border-radius:{{ p.br }}px;box-shadow:inset -6px 0 12px rgba(0,0,0,.06),0 16px 20px -10px rgba(70,35,20,.35)"></div>
+                      </div>
+                      <button onClick="{{ p.toggleWish }}" style="position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;cursor:pointer">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="{{ p.heartFill }}" stroke="{{ p.heartStroke }}" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>
+                      </button>
+                    </div>
+                    <div>
+                      <div style="font:500 11px 'Archivo',sans-serif;color:#707070;letter-spacing:.4px">{{ p.cat }}</div>
+                      <div style="font:600 14px/1.3 'Archivo',sans-serif;margin-top:3px">{{ p.name }}</div>
+                      <div style="display:flex;justify-content:space-between;margin-top:5px;font:500 13px 'Archivo',sans-serif"><span>{{ p.priceS }}</span><span style="color:#595959">★ {{ p.rating }}</span></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;padding:0 20px">
+              <div style="font:800 condensed 26px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">New in</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 12px">
+                <sc-for list="{{ newIn }}" as="p" hint-placeholder-count="4">
+                  <div onClick="{{ p.open }}" style="display:flex;flex-direction:column;gap:10px;cursor:pointer;min-width:0">
+                    <div style="background:{{ p.tile }};border-radius:4px;height:180px;display:flex;align-items:center;justify-content:center;position:relative">
+                      <div style="display:flex;flex-direction:column;align-items:center">
+                        <div style="width:{{ p.cw }}px;height:{{ p.ch }}px;background:{{ p.capC }};border-radius:{{ p.cr }}px"></div>
+                        <div style="width:{{ p.bw }}px;height:{{ p.bh }}px;background:{{ p.bodyC }};border-radius:{{ p.br }}px;box-shadow:inset -6px 0 12px rgba(0,0,0,.06),0 16px 20px -10px rgba(70,35,20,.35)"></div>
+                      </div>
+                      <span style="position:absolute;top:10px;left:10px;background:#FFFFFF;border-radius:2px;padding:4px 9px;font:600 10px 'Archivo',sans-serif;letter-spacing:.6px">NEW</span>
+                    </div>
+                    <div>
+                      <div style="font:600 14px/1.3 'Archivo',sans-serif">{{ p.name }}</div>
+                      <div style="font:500 13px 'Archivo',sans-serif;margin-top:4px">{{ p.priceS }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- SHOP -->
+        <sc-if value="{{ is.shop }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:60px 0 28px;display:flex;flex-direction:column;gap:16px">
+            <div style="padding:0 20px;font:800 condensed 36px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Shop</div>
+            <div style="margin:0 20px;height:50px;border-radius:2px;border:1px solid #E4E4E4;background:#FFFFFF;display:flex;align-items:center;gap:10px;padding:0 18px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#595959" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+              <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Search serums, shades, scents…" style="flex:1;min-width:0;border:none;background:transparent;outline:none;font:400 15px 'Archivo',sans-serif;color:#000000">
+              <sc-if value="{{ q }}" hint-placeholder-val="{{ false }}"><button onClick="{{ clearQ }}" style="border:none;background:#EEEEEE;width:22px;height:22px;border-radius:50%;cursor:pointer;font:600 12px 'Archivo',sans-serif;color:#000000">×</button></sc-if>
+            </div>
+            <div style="display:flex;gap:8px;overflow-x:auto;padding:0 20px">
+              <sc-for list="{{ catChips }}" as="c" hint-placeholder-count="6">
+                <button onClick="{{ c.go }}" style="flex:none;height:38px;padding:0 16px;border-radius:2px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};font:600 13px 'Archivo',sans-serif;cursor:pointer">{{ c.label }}</button>
+              </sc-for>
+            </div>
+            <div style="padding:0 20px;display:flex;justify-content:space-between;align-items:center">
+              <span style="font:500 13px 'Archivo',sans-serif;color:#595959">{{ shopCount }}</span>
+              <div style="display:flex;gap:2px;background:#EDEDED;border-radius:2px;padding:3px">
+                <sc-for list="{{ sorts }}" as="s" hint-placeholder-count="3">
+                  <button onClick="{{ s.go }}" style="border:none;border-radius:2px;padding:6px 11px;background:{{ s.bg }};color:#000000;font:600 12px 'Archivo',sans-serif;cursor:pointer;box-shadow:{{ s.shadow }}">{{ s.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <sc-if value="{{ shopEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:48px 32px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center">
+                <div style="font:800 condensed 26px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Nothing matches “{{ q }}”</div>
+                <div style="font:400 14px/1.5 'Archivo',sans-serif;color:#595959">Try a product type like “serum” or a shade name.</div>
+                <button onClick="{{ clearQ }}" style="margin-top:8px;height:44px;padding:0 20px;border-radius:2px;border:1.5px solid #000000;background:none;font:600 14px 'Archivo',sans-serif;cursor:pointer">Clear search</button>
+              </div>
+            </sc-if>
+            <div style="padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:18px 12px">
+              <sc-for list="{{ shopList }}" as="p" hint-placeholder-count="6">
+                <div onClick="{{ p.open }}" style="display:flex;flex-direction:column;gap:10px;cursor:pointer;min-width:0">
+                  <div style="background:{{ p.tile }};border-radius:4px;height:196px;display:flex;align-items:center;justify-content:center;position:relative">
+                    <div style="display:flex;flex-direction:column;align-items:center">
+                      <div style="width:{{ p.cw }}px;height:{{ p.ch }}px;background:{{ p.capC }};border-radius:{{ p.cr }}px"></div>
+                      <div style="width:{{ p.bw }}px;height:{{ p.bh }}px;background:{{ p.bodyC }};border-radius:{{ p.br }}px;box-shadow:inset -6px 0 12px rgba(0,0,0,.06),0 16px 20px -10px rgba(70,35,20,.35)"></div>
+                    </div>
+                    <button onClick="{{ p.toggleWish }}" style="position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;cursor:pointer">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="{{ p.heartFill }}" stroke="{{ p.heartStroke }}" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>
+                    </button>
+                    <button onClick="{{ p.quickAdd }}" style="position:absolute;bottom:10px;right:10px;width:34px;height:34px;border-radius:50%;border:none;background:#000000;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;font:400 20px/1 'Archivo',sans-serif">+</button>
+                  </div>
+                  <div>
+                    <div style="font:500 11px 'Archivo',sans-serif;color:#707070;letter-spacing:.4px">{{ p.cat }}</div>
+                    <div style="font:600 14px/1.3 'Archivo',sans-serif;margin-top:3px">{{ p.name }}</div>
+                    <div style="display:flex;justify-content:space-between;margin-top:5px;font:500 13px 'Archivo',sans-serif"><span>{{ p.priceS }}</span><span style="color:#595959">★ {{ p.rating }}</span></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- PRODUCT -->
+        <sc-if value="{{ is.product }}" hint-placeholder-val="{{ false }}">
+          <div style="padding-bottom:120px">
+            <div style="background:{{ cur.tile }};height:430px;position:relative;display:flex;align-items:center;justify-content:center">
+              <div style="position:absolute;top:58px;left:20px;right:20px;display:flex;justify-content:space-between">
+                <button onClick="{{ back }}" style="width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+                <button onClick="{{ cur.toggleWish }}" style="width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="{{ cur.heartFill }}" stroke="{{ cur.heartStroke }}" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></button>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;transform:scale(1.9) translateY(10px)">
+                <div style="width:{{ cur.cw }}px;height:{{ cur.ch }}px;background:{{ cur.capC }};border-radius:{{ cur.cr }}px;transition:background .3s"></div>
+                <div style="width:{{ cur.bw }}px;height:{{ cur.bh }}px;background:{{ cur.bodyC }};border-radius:{{ cur.br }}px;transition:background .3s;box-shadow:inset -6px 0 12px rgba(0,0,0,.06),0 16px 20px -10px rgba(70,35,20,.35)"></div>
+              </div>
+              <span style="position:absolute;bottom:18px;left:20px;background:#FFFFFF;border-radius:2px;padding:6px 12px;font:600 11px 'Archivo',sans-serif;letter-spacing:.5px">{{ cur.size }}</span>
+            </div>
+            <div style="padding:22px 20px 0;display:flex;flex-direction:column;gap:20px">
+              <div>
+                <div style="font:600 11px 'Archivo',sans-serif;letter-spacing:1.5px;color:#707070">{{ cur.catU }}</div>
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-top:6px">
+                  <div style="font:800 condensed 34px/1.02 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px;text-wrap:pretty">{{ cur.name }}</div>
+                  <div style="font:600 20px 'Archivo',sans-serif;padding-top:6px">{{ cur.priceS }}</div>
+                </div>
+                <div style="font:400 14px 'Archivo',sans-serif;color:#595959;margin-top:6px">{{ cur.line }}</div>
+                <div style="display:flex;align-items:center;gap:6px;margin-top:10px;font:500 13px 'Archivo',sans-serif"><span style="color:#D4002A;letter-spacing:1px">★★★★★</span><span>{{ cur.rating }}</span><span style="color:#595959">· {{ cur.reviewsS }} reviews</span></div>
+              </div>
+              <sc-if value="{{ cur.hasShades }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <div style="font:600 13px 'Archivo',sans-serif">Shade — <span style="font-weight:400;color:#595959">{{ shadeName }}</span></div>
+                  <div style="display:flex;gap:14px;flex-wrap:wrap">
+                    <sc-for list="{{ shadeList }}" as="s" hint-placeholder-count="4">
+                      <button onClick="{{ s.pick }}" aria-label="{{ s.name }}" style="width:36px;height:36px;border-radius:50%;border:none;background:{{ s.hex }};cursor:pointer;box-shadow:{{ s.ring }};transition:box-shadow .2s"></button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <div style="font:400 15px/1.6 'Archivo',sans-serif;color:#333333;text-wrap:pretty">{{ cur.desc }}</div>
+              <div style="border-top:1px solid #E4E4E4;border-bottom:1px solid #E4E4E4">
+                <button onClick="{{ toggleHow }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;border:none;background:none;padding:16px 0;font:600 14px 'Archivo',sans-serif;color:#000000;cursor:pointer">How to use<span style="font:400 20px 'Archivo',sans-serif">{{ howSign }}</span></button>
+                <sc-if value="{{ openHow }}" hint-placeholder-val="{{ false }}"><div style="padding:0 0 16px;font:400 14px/1.6 'Archivo',sans-serif;color:#333333">{{ cur.how }}</div></sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font:800 condensed 24px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">What people say</div>
+                <sc-for list="{{ cur.revs }}" as="r" hint-placeholder-count="2">
+                  <div style="background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:6px">
+                    <div style="display:flex;justify-content:space-between;font:600 13px 'Archivo',sans-serif"><span>{{ r.who }}</span><span style="color:#D4002A;letter-spacing:1px;font-weight:500">★★★★★</span></div>
+                    <div style="font:400 14px/1.5 'Archivo',sans-serif;color:#333333">{{ r.text }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- WISHLIST -->
+        <sc-if value="{{ is.wishlist }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:60px 20px 28px;display:flex;flex-direction:column;gap:18px">
+            <div>
+              <div style="font:800 condensed 36px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Wishlist</div>
+              <div style="font:400 14px 'Archivo',sans-serif;color:#595959;margin-top:6px">{{ wishCountS }}</div>
+            </div>
+            <sc-if value="{{ wishEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:60px 16px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D4002A" stroke-width="1.4" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>
+                <div style="font:800 condensed 26px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Nothing saved yet</div>
+                <div style="font:400 14px/1.5 'Archivo',sans-serif;color:#595959">Tap the heart on anything you love.</div>
+                <button onClick="{{ goShop }}" style="margin-top:8px;height:48px;padding:0 24px;border-radius:2px;border:none;background:#000000;color:#FFFFFF;font:600 14px 'Archivo',sans-serif;cursor:pointer">Browse the shop</button>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ wishList }}" as="p" hint-placeholder-count="2">
+                <div style="display:flex;gap:14px;align-items:center;background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;padding:10px">
+                  <div onClick="{{ p.open }}" style="flex:none;width:88px;height:96px;border-radius:4px;background:{{ p.tile }};display:flex;align-items:center;justify-content:center;cursor:pointer">
+                    <div style="display:flex;flex-direction:column;align-items:center;transform:scale(.55)">
+                      <div style="width:{{ p.cw }}px;height:{{ p.ch }}px;background:{{ p.capC }};border-radius:{{ p.cr }}px"></div>
+                      <div style="width:{{ p.bw }}px;height:{{ p.bh }}px;background:{{ p.bodyC }};border-radius:{{ p.br }}px"></div>
+                    </div>
+                  </div>
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                    <div style="font:600 14px/1.3 'Archivo',sans-serif">{{ p.name }}</div>
+                    <div style="font:500 13px 'Archivo',sans-serif;color:#595959">{{ p.priceS }}</div>
+                    <div style="display:flex;gap:8px;margin-top:6px">
+                      <button onClick="{{ p.quickAdd }}" style="height:34px;padding:0 14px;border-radius:2px;border:none;background:#000000;color:#FFFFFF;font:600 12px 'Archivo',sans-serif;cursor:pointer">Add to bag</button>
+                      <button onClick="{{ p.toggleWish }}" style="height:34px;padding:0 12px;border-radius:2px;border:1px solid #E4E4E4;background:none;color:#000000;font:600 12px 'Archivo',sans-serif;cursor:pointer">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- BAG -->
+        <sc-if value="{{ is.bag }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:60px 20px 28px;display:flex;flex-direction:column;gap:18px">
+            <div>
+              <div style="font:800 condensed 36px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Your bag</div>
+              <div style="font:400 14px 'Archivo',sans-serif;color:#595959;margin-top:6px">{{ bagCountS }}</div>
+            </div>
+            <sc-if value="{{ bagEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:60px 16px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D4002A" stroke-width="1.4" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"></path><path d="M9 10V6a3 3 0 0 1 6 0v4" stroke-linecap="round"></path></svg>
+                <div style="font:800 condensed 26px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Your bag is empty</div>
+                <div style="font:400 14px/1.5 'Archivo',sans-serif;color:#595959">Free shipping on orders over $50.</div>
+                <button onClick="{{ goShop }}" style="margin-top:8px;height:48px;padding:0 24px;border-radius:2px;border:none;background:#000000;color:#FFFFFF;font:600 14px 'Archivo',sans-serif;cursor:pointer">Start shopping</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ bagHasItems }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:18px">
+                <sc-if value="{{ freeShipMsg }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#F1ECE7;border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+                    <div style="font:500 13px 'Archivo',sans-serif">{{ freeShipMsg }}</div>
+                    <div style="height:4px;border-radius:2px;background:#FFFFFF;overflow:hidden"><div style="height:100%;width:{{ freeShipPct }}%;background:#D4002A;border-radius:2px;transition:width .4s"></div></div>
+                  </div>
+                </sc-if>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ bagLines }}" as="l" hint-placeholder-count="2">
+                    <div style="display:flex;gap:14px;background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;padding:10px">
+                      <div onClick="{{ l.open }}" style="flex:none;width:88px;height:104px;border-radius:4px;background:{{ l.p.tile }};display:flex;align-items:center;justify-content:center;cursor:pointer">
+                        <div style="display:flex;flex-direction:column;align-items:center;transform:scale(.55)">
+                          <div style="width:{{ l.p.cw }}px;height:{{ l.p.ch }}px;background:{{ l.capC }};border-radius:{{ l.p.cr }}px"></div>
+                          <div style="width:{{ l.p.bw }}px;height:{{ l.p.bh }}px;background:{{ l.bodyC }};border-radius:{{ l.p.br }}px"></div>
+                        </div>
+                      </div>
+                      <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:2px 2px 0 0">
+                        <div>
+                          <div style="display:flex;justify-content:space-between;gap:8px"><div style="font:600 14px/1.3 'Archivo',sans-serif">{{ l.p.name }}</div><button onClick="{{ l.remove }}" aria-label="Remove" style="flex:none;border:none;background:none;cursor:pointer;padding:0;width:24px;height:24px;color:#707070;font:400 20px/1 'Archivo',sans-serif">×</button></div>
+                          <div style="font:400 12px 'Archivo',sans-serif;color:#595959;margin-top:3px">{{ l.meta }}</div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                          <div style="display:flex;align-items:center;border:1px solid #E4E4E4;border-radius:2px;height:34px">
+                            <button onClick="{{ l.dec }}" style="width:34px;height:32px;border:none;background:none;cursor:pointer;font:500 16px 'Archivo',sans-serif;color:#000000">−</button>
+                            <span style="min-width:18px;text-align:center;font:600 13px 'Archivo',sans-serif">{{ l.qty }}</span>
+                            <button onClick="{{ l.inc }}" style="width:34px;height:32px;border:none;background:none;cursor:pointer;font:500 16px 'Archivo',sans-serif;color:#000000">+</button>
+                          </div>
+                          <div style="font:600 15px 'Archivo',sans-serif">{{ l.lineS }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;gap:8px">
+                    <input value="{{ promo }}" onChange="{{ onPromo }}" placeholder="Promo code" style="flex:1;min-width:0;height:48px;border-radius:2px;border:1px solid #E4E4E4;background:#FFFFFF;padding:0 18px;font:500 14px 'Archivo',sans-serif;color:#000000;outline:none;text-transform:uppercase;letter-spacing:1px" style-focus="border-color:#000000">
+                    <button onClick="{{ applyPromo }}" style="height:48px;padding:0 20px;border-radius:2px;border:1.5px solid #000000;background:none;font:600 14px 'Archivo',sans-serif;color:#000000;cursor:pointer">{{ promoBtn }}</button>
+                  </div>
+                  <sc-if value="{{ promoMsg }}" hint-placeholder-val="{{ false }}"><div style="font:500 12px 'Archivo',sans-serif;color:{{ promoMsgColor }};padding-left:18px">{{ promoMsg }}</div></sc-if>
+                </div>
+                <div style="background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px;font:400 14px 'Archivo',sans-serif">
+                  <div style="display:flex;justify-content:space-between"><span style="color:#595959">Subtotal</span><span>{{ t.subS }}</span></div>
+                  <sc-if value="{{ t.disc }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;color:#D4002A"><span>GLOW15 (15%)</span><span>−{{ t.discS }}</span></div></sc-if>
+                  <div style="display:flex;justify-content:space-between"><span style="color:#595959">Shipping</span><span>{{ t.shipS }}</span></div>
+                  <div style="height:1px;background:#EDEDED"></div>
+                  <div style="display:flex;justify-content:space-between;font:600 16px 'Archivo',sans-serif"><span>Total</span><span>{{ t.totalS }}</span></div>
+                </div>
+                <button onClick="{{ goCheckout }}" style="height:56px;border:none;border-radius:2px;background:#000000;color:#FFFFFF;font:700 14px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:0 24px" style-active="transform:scale(.98)"><span>Checkout</span><span>{{ t.totalS }}</span></button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- CHECKOUT -->
+        <sc-if value="{{ is.checkout }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:58px 20px 130px;display:flex;flex-direction:column;gap:20px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <button onClick="{{ coBack }}" style="width:44px;height:44px;border-radius:50%;border:1px solid #E4E4E4;background:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+              <div style="font:800 condensed 30px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Checkout</div>
+              <div style="margin-left:auto;display:flex;align-items:center;gap:5px;font:500 12px 'Archivo',sans-serif;color:#595959"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#595959" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>Secure</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+              <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+                <button onClick="{{ s.go }}" style="border:none;background:none;padding:0;display:flex;flex-direction:column;gap:7px;text-align:left;cursor:pointer">
+                  <div style="height:3px;border-radius:2px;background:{{ s.bar }};transition:background .3s"></div>
+                  <div style="font:600 12px 'Archivo',sans-serif;color:{{ s.fg }}">{{ s.n }}. {{ s.label }}</div>
+                </button>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{ co.s1 }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="font:800 condensed 24px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Where should we send it?</div>
+                <sc-for list="{{ shipFields }}" as="f" hint-placeholder-count="5">
+                  <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">{{ f.label }}
+                    <input value="{{ f.value }}" onChange="{{ f.onChange }}" style="width:100%;box-sizing:border-box;height:50px;border-radius:4px;border:1px solid {{ f.border }};background:#FFFFFF;padding:0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none" style-focus="border-color:#000000">
+                  </label>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ co.s2 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font:800 condensed 24px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Delivery speed</div>
+                <sc-for list="{{ deliveries }}" as="d" hint-placeholder-count="2">
+                  <button onClick="{{ d.pick }}" style="display:flex;align-items:center;gap:14px;border:1.5px solid {{ d.border }};background:#FFFFFF;border-radius:4px;padding:16px;cursor:pointer;text-align:left">
+                    <span style="flex:none;width:20px;height:20px;border-radius:50%;border:1.5px solid #000000;display:flex;align-items:center;justify-content:center"><span style="width:10px;height:10px;border-radius:50%;background:{{ d.dot }}"></span></span>
+                    <span style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font:600 14px 'Archivo',sans-serif;color:#000000">{{ d.label }}</span><span style="font:400 13px 'Archivo',sans-serif;color:#595959">{{ d.eta }}</span></span>
+                    <span style="font:600 14px 'Archivo',sans-serif;color:#000000">{{ d.priceS }}</span>
+                  </button>
+                </sc-for>
+                <div style="background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px">
+                  <div style="font:400 13px/1.5 'Archivo',sans-serif;color:#595959">Shipping to<br><span style="color:#000000;font-weight:500">{{ ship.street }}, {{ ship.city }}</span></div>
+                  <button onClick="{{ goStep1 }}" style="border:none;background:none;font:600 13px 'Archivo',sans-serif;color:#000000;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Edit</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ co.s3 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="font:800 condensed 24px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Payment</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                  <sc-for list="{{ payOpts }}" as="o" hint-placeholder-count="2">
+                    <button onClick="{{ o.pick }}" style="height:54px;border-radius:4px;border:1.5px solid {{ o.border }};background:#FFFFFF;font:600 14px 'Archivo',sans-serif;color:#000000;cursor:pointer">{{ o.label }}</button>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ payCard }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column;gap:14px">
+                    <div style="height:176px;border-radius:4px;background:#000000;color:#FFFFFF;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+                      <div style="position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:#D4002A;opacity:.9"></div>
+                      <div style="position:relative;display:flex;justify-content:space-between;font:600 11px 'Archivo',sans-serif;letter-spacing:2px"><span>VELOUR PAY</span><span>{{ cardBrand }}</span></div>
+                      <div style="position:relative;font:500 20px ui-monospace,Menlo,monospace;letter-spacing:2px">{{ cardPreview }}</div>
+                      <div style="position:relative;display:flex;justify-content:space-between;font:500 12px 'Archivo',sans-serif;letter-spacing:.5px"><span>{{ card.holder }}</span><span>{{ expPreview }}</span></div>
+                    </div>
+                    <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">Card number
+                      <input value="{{ card.num }}" onChange="{{ onCardNum }}" inputmode="numeric" placeholder="1234 5678 9012 3456" style="width:100%;box-sizing:border-box;height:50px;border-radius:4px;border:1px solid {{ cardBorder.num }};background:#FFFFFF;padding:0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none;letter-spacing:1px" style-focus="border-color:#000000">
+                    </label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                      <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">Expiry
+                        <input value="{{ card.exp }}" onChange="{{ onCardExp }}" inputmode="numeric" placeholder="MM/YY" style="width:100%;box-sizing:border-box;height:50px;border-radius:4px;border:1px solid {{ cardBorder.exp }};background:#FFFFFF;padding:0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none" style-focus="border-color:#000000">
+                      </label>
+                      <label style="display:flex;flex-direction:column;gap:7px;font:600 12px 'Archivo',sans-serif;letter-spacing:.3px">CVC
+                        <input value="{{ card.cvc }}" onChange="{{ onCardCvc }}" inputmode="numeric" placeholder="123" style="width:100%;box-sizing:border-box;height:50px;border-radius:4px;border:1px solid {{ cardBorder.cvc }};background:#FFFFFF;padding:0 16px;font:400 15px 'Archivo',sans-serif;color:#000000;outline:none" style-focus="border-color:#000000">
+                      </label>
+                    </div>
+                    <sc-if value="{{ coErrMsg }}" hint-placeholder-val="{{ false }}"><div style="font:500 12px 'Archivo',sans-serif;color:#C4001F">{{ coErrMsg }}</div></sc-if>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ payApple }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;padding:18px;font:400 14px/1.5 'Archivo',sans-serif;color:#333333">You'll confirm with Face ID after tapping Pay. Your card details are never shared with us.</div>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <div style="background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px;font:400 14px 'Archivo',sans-serif">
+              <div style="display:flex;justify-content:space-between;font:600 13px 'Archivo',sans-serif"><span>Order summary</span><span style="font-weight:400;color:#595959">{{ bagCountS }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#595959">Subtotal</span><span>{{ t.subS }}</span></div>
+              <sc-if value="{{ t.disc }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;color:#D4002A"><span>GLOW15 (15%)</span><span>−{{ t.discS }}</span></div></sc-if>
+              <div style="display:flex;justify-content:space-between"><span style="color:#595959">Shipping</span><span>{{ t.shipS }}</span></div>
+              <div style="height:1px;background:#EDEDED"></div>
+              <div style="display:flex;justify-content:space-between;font:600 16px 'Archivo',sans-serif"><span>Total</span><span>{{ t.totalS }}</span></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- SUCCESS -->
+        <sc-if value="{{ is.success }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:90px 24px 40px;display:flex;flex-direction:column;gap:22px;align-items:center;text-align:center">
+            <div style="width:96px;height:96px;border-radius:50%;background:#D4002A;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 14px #F1ECE7"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></div>
+            <div>
+              <div style="font:800 condensed 42px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Thank you, {{ firstName }}</div>
+              <div style="font:400 15px/1.5 'Archivo',sans-serif;color:#595959;margin-top:10px;text-wrap:pretty">Your order is confirmed. A receipt is on its way to {{ emailShown }}.</div>
+            </div>
+            <div style="width:100%;background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:12px;text-align:left;font:400 14px 'Archivo',sans-serif;box-sizing:border-box">
+              <div style="display:flex;justify-content:space-between"><span style="color:#595959">Order</span><span style="font-weight:600">{{ order.no }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#595959">Items</span><span>{{ order.items }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#595959">Arriving</span><span>{{ order.eta }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#595959">Paid with</span><span>{{ order.pay }}</span></div>
+              <div style="height:1px;background:#EDEDED"></div>
+              <div style="display:flex;justify-content:space-between;font:600 16px 'Archivo',sans-serif"><span>Total</span><span>{{ order.total }}</span></div>
+            </div>
+            <div style="width:100%;display:flex;flex-direction:column;gap:10px">
+              <button onClick="{{ track }}" style="height:56px;border:none;border-radius:2px;background:#000000;color:#FFFFFF;font:700 14px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer">Track order</button>
+              <button onClick="{{ goHome }}" style="height:56px;border:1.5px solid #000000;border-radius:2px;background:transparent;color:#000000;font:700 14px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer">Continue shopping</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- PROFILE -->
+        <sc-if value="{{ is.profile }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:60px 20px 28px;display:flex;flex-direction:column;gap:22px">
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="width:68px;height:68px;border-radius:50%;background:#F1ECE7;display:flex;align-items:center;justify-content:center;font:800 condensed 30px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">{{ initial }}</div>
+              <div>
+                <div style="font:800 condensed 30px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">{{ fullName }}</div>
+                <div style="font:400 13px 'Archivo',sans-serif;color:#595959;margin-top:5px">{{ emailShown }} · Member</div>
+              </div>
+            </div>
+            <sc-if value="{{ order }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#000000;color:#FFFFFF;border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:6px">
+                <div style="font:600 11px 'Archivo',sans-serif;letter-spacing:1.5px;opacity:.75">LATEST ORDER · {{ order.no }}</div>
+                <div style="font:800 condensed 24px/1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-0.2px">Arriving {{ order.eta }}</div>
+                <div style="height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin-top:6px"><div style="width:25%;height:100%;border-radius:2px;background:#FF6B7F"></div></div>
+                <div style="font:400 12px 'Archivo',sans-serif;opacity:.8">Packed · preparing to ship</div>
+              </div>
+            </sc-if>
+            <div style="background:#FFFFFF;border:1px solid #EDEDED;border-radius:4px;overflow:hidden">
+              <sc-for list="{{ profileRows }}" as="r" hint-placeholder-count="5">
+                <button onClick="{{ r.go }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;border:none;border-bottom:1px solid #F0F0F0;background:none;padding:16px;font:500 15px 'Archivo',sans-serif;color:#000000;cursor:pointer;text-align:left">
+                  <span>{{ r.label }}</span><span style="font:400 13px 'Archivo',sans-serif;color:#595959">{{ r.detail }} ›</span>
+                </button>
+              </sc-for>
+            </div>
+            <button onClick="{{ logout }}" style="height:52px;border:1.5px solid #000000;border-radius:2px;background:transparent;color:#000000;font:700 14px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer">Sign out</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- product sticky bar -->
+      <sc-if value="{{ is.product }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 34px;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid #E4E4E4;display:flex;gap:10px;align-items:center">
+          <div style="display:flex;align-items:center;border:1px solid #D6D6D6;border-radius:2px;height:54px">
+            <button onClick="{{ qtyDec }}" style="width:44px;height:52px;border:none;background:none;cursor:pointer;font:500 18px 'Archivo',sans-serif;color:#000000">−</button>
+            <span style="min-width:20px;text-align:center;font:600 15px 'Archivo',sans-serif">{{ qty }}</span>
+            <button onClick="{{ qtyInc }}" style="width:44px;height:52px;border:none;background:none;cursor:pointer;font:500 18px 'Archivo',sans-serif;color:#000000">+</button>
+          </div>
+          <button onClick="{{ addToBag }}" style="flex:1;height:54px;border:none;border-radius:2px;background:#000000;color:#FFFFFF;font:700 14px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer" style-active="transform:scale(.98)">Add to bag · {{ addPrice }}</button>
+        </div>
+      </sc-if>
+
+      <!-- checkout sticky bar -->
+      <sc-if value="{{ is.checkout }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 34px;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid #E4E4E4">
+          <button onClick="{{ coNext }}" style="width:100%;height:56px;border:none;border-radius:2px;background:{{ coBtnBg }};color:#FFFFFF;font:700 14px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;opacity:{{ btnOpacity }}" style-active="transform:scale(.98)">{{ coBtnLabel }}</button>
+        </div>
+      </sc-if>
+
+      <!-- tab bar -->
+      <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:14px;right:14px;bottom:26px;z-index:30;height:70px;border-radius:24px;background:#000000;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:0 6px;box-shadow:0 18px 40px -12px rgba(0,0,0,.45)">
+          <button onClick="{{ goHome }}" style="position:relative;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0;cursor:pointer;color:{{ tab.home.fg }};font:700 9px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase">
+            <span style="width:52px;height:32px;border-radius:16px;background:{{ tab.home.pill }};color:{{ tab.home.ic }};display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"></path></svg></span>Home
+          </button>
+          <button onClick="{{ goShop }}" style="position:relative;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0;cursor:pointer;color:{{ tab.shop.fg }};font:700 9px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase">
+            <span style="width:52px;height:32px;border-radius:16px;background:{{ tab.shop.pill }};color:{{ tab.shop.ic }};display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></span>Shop
+          </button>
+          <button onClick="{{ goWish }}" style="position:relative;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0;cursor:pointer;color:{{ tab.wishlist.fg }};font:700 9px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase">
+            <span style="width:52px;height:32px;border-radius:16px;background:{{ tab.wishlist.pill }};color:{{ tab.wishlist.ic }};display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></span>Saved
+          </button>
+          <button onClick="{{ goBag }}" style="position:relative;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0;cursor:pointer;color:{{ tab.bag.fg }};font:700 9px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase">
+            <span style="width:52px;height:32px;border-radius:16px;background:{{ tab.bag.pill }};color:{{ tab.bag.ic }};display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"></path><path d="M9 10V6a3 3 0 0 1 6 0v4" stroke-linecap="round"></path></svg></span>Bag
+            <sc-if value="{{ bagCount }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-4px;left:50%;margin-left:10px;min-width:18px;height:18px;border-radius:9px;background:#D4002A;color:#FFFFFF;font:800 10px/18px 'Archivo',sans-serif;letter-spacing:0;text-align:center;padding:0 5px;box-sizing:border-box;border:2px solid #000000">{{ bagCount }}</span></sc-if>
+          </button>
+          <button onClick="{{ goProfile }}" style="position:relative;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0;cursor:pointer;color:{{ tab.profile.fg }};font:700 9px 'Archivo',sans-serif;letter-spacing:1.2px;text-transform:uppercase">
+            <span style="width:52px;height:32px;border-radius:16px;background:{{ tab.profile.pill }};color:{{ tab.profile.ic }};display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>Me
+          </button>
+        </div>
+      </sc-if>
+
+      <!-- toast -->
+      <div style="position:absolute;left:20px;right:20px;top:58px;z-index:40;pointer-events:none;display:flex;justify-content:center;opacity:{{ toastOp }};transform:translateY({{ toastY }}px);transition:opacity .25s,transform .25s">
+        <div style="background:#000000;color:#FFFFFF;border-radius:2px;padding:12px 18px;font:600 13px 'Archivo',sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.25);display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6B7F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>{{ toast }}</div>
+      </div>
+    </div>
+  </x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;welcome&quot;,&quot;login&quot;,&quot;signup&quot;,&quot;home&quot;,&quot;shop&quot;,&quot;product&quot;,&quot;wishlist&quot;,&quot;bag&quot;,&quot;checkout&quot;,&quot;success&quot;,&quot;profile&quot;],&quot;default&quot;:&quot;welcome&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showFlowMap&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const PRODUCTS = [
+  {id:'p1',name:'Dew Drop Serum',line:'Hyaluronic acid + niacinamide',cat:'Skincare',price:38,rating:4.8,reviews:1284,size:'30 ml',tile:'#F2F0EE',shape:'serum',cap:'#000000',body:'#F6ECE2',best:true,desc:'A weightless, water-light serum that floods skin with moisture and visibly smooths texture in two weeks. Layers under everything.',how:'Press 2–3 drops into clean skin morning and night, before moisturiser.',shades:[]},
+  {id:'p2',name:'Cloud Cream',line:'Barrier-repair moisturiser',cat:'Skincare',price:44,rating:4.7,reviews:862,size:'50 ml',tile:'#EEF0EC',shape:'jar',cap:'#8FA58C',body:'#F7F3EC',best:true,desc:'A whipped, cushiony cream with ceramides and oat lipids that calms tight, reactive skin without feeling heavy.',how:'Warm a pea-sized amount between fingertips and press over face and neck.',shades:[]},
+  {id:'p3',name:'Velvet Matte Lipstick',line:'12-hour soft-matte colour',cat:'Makeup',price:24,rating:4.6,reviews:2140,size:'3.5 g',tile:'#F4EEEC',shape:'lipstick',cap:'#9E4A48',body:'#C9A46A',best:true,desc:'Blurs lines with a single swipe and never dries down chalky. Built with squalane so lips stay comfortable all day.',how:'Apply from the centre of the lip outward. Blot and reapply for deeper colour.',shades:[{name:'Rosewood',hex:'#9E4A48'},{name:'Terracotta',hex:'#D4002A'},{name:'Mauve',hex:'#8C5A6B'},{name:'Bare',hex:'#C48F7A'}]},
+  {id:'p4',name:'Skin Tint SPF 30',line:'Sheer coverage, mineral SPF',cat:'Makeup',price:32,rating:4.5,reviews:640,size:'40 ml',tile:'#F2EFEB',shape:'tube',cap:'#000000',body:'#D9B79C',isNew:true,desc:'A breathable tint that evens tone and protects in one step. Natural finish, no white cast.',how:'Shake well. Dot over face and blend outward with fingers or a damp sponge.',shades:[{name:'Porcelain',hex:'#EACBB1'},{name:'Sand',hex:'#D9B79C'},{name:'Honey',hex:'#C19070'},{name:'Chestnut',hex:'#8E5E43'},{name:'Espresso',hex:'#5B3A2A'}]},
+  {id:'p5',name:'Nuit Eau de Parfum',line:'Fig, iris and warm amber',cat:'Fragrance',price:78,rating:4.9,reviews:410,size:'50 ml',tile:'#EFEDF0',shape:'perfume',cap:'#000000',body:'#CDBFD4',best:true,desc:'An after-dark scent that opens bright with fig leaf and settles into powdery iris and a soft amber base.',how:'Spray on pulse points from 15 cm away. Don\u2019t rub — let it settle.',shades:[]},
+  {id:'p6',name:'Silk Repair Hair Oil',line:'Camellia + argan',cat:'Hair',price:29,rating:4.7,reviews:533,size:'50 ml',tile:'#F3F0EA',shape:'serum',cap:'#000000',body:'#D9A85C',isNew:true,desc:'Tames frizz and adds glassy shine without weighing hair down. Heat-protects up to 230°C.',how:'Work 1–2 drops through mid-lengths and ends, damp or dry.',shades:[]},
+  {id:'p7',name:'Glow Balm Highlighter',line:'Dewy cream-to-powder glow',cat:'Makeup',price:26,rating:4.6,reviews:978,size:'6 g',tile:'#F4F1EE',shape:'compact',cap:'#000000',body:'#E4C3A6',isNew:true,desc:'A melting balm that taps on like skin and sets to a lit-from-within sheen. No glitter, no flashback.',how:'Tap onto cheekbones, brow bone and cupid\u2019s bow with a fingertip.',shades:[{name:'Champagne',hex:'#E4C3A6'},{name:'Rose Gold',hex:'#D8A08E'},{name:'Bronze',hex:'#B07A55'}]},
+  {id:'p8',name:'Oat Milk Body Wash',line:'Gentle, pH-balanced',cat:'Body',price:19,rating:4.8,reviews:1502,size:'300 ml',tile:'#F1F0ED',shape:'tube',cap:'#8FA58C',body:'#F4EFE6',isNew:true,desc:'A creamy, low-foam wash that cleans without stripping. Scented lightly with neroli.',how:'Lather in hands or on a cloth, massage over damp skin and rinse.',shades:[]},
+];
+const SHAPES = {serum:{cw:14,ch:30,cr:4,bw:46,bh:72,br:12},jar:{cw:74,ch:20,cr:6,bw:80,bh:46,br:12},lipstick:{cw:24,ch:36,cr:4,bw:28,bh:46,br:3},perfume:{cw:30,ch:22,cr:5,bw:72,bh:78,br:16},tube:{cw:36,ch:16,cr:4,bw:46,bh:96,br:10},compact:{cw:0,ch:0,cr:0,bw:84,bh:84,br:42}};
+const REVIEWS = {
+  Skincare:[{who:'Maya R.',text:'My skin drinks this up. Three weeks in and my foundation sits so much better.'},{who:'Jess T.',text:'No pilling under sunscreen, which is rare for me. Already on my second.'}],
+  Makeup:[{who:'Priya K.',text:'The shade range actually works for me. Wore it through a 10-hour shift.'},{who:'Lena M.',text:'Feels like nothing on. Getting compliments every time.'}],
+  Fragrance:[{who:'Noor A.',text:'Soft but it lasts all evening. People keep asking what I\u2019m wearing.'},{who:'Sam W.',text:'Warm, not sweet. Exactly what I wanted for autumn.'}],
+  Hair:[{who:'Tia B.',text:'Two drops and the frizz is gone. Doesn\u2019t make my fine hair greasy.'},{who:'Carla D.',text:'Smells lovely and my ends look healthier.'}],
+  Body:[{who:'Ruth P.',text:'Finally a body wash that doesn\u2019t leave my skin tight.'},{who:'Ben O.',text:'Gentle enough for my eczema. Big bottle lasts ages.'}],
+};
+const CATS = ['All','Skincare','Makeup','Fragrance','Hair','Body'];
+const CAT_TILES = {Skincare:'#F2F0EE',Makeup:'#F4EEEC',Fragrance:'#EFEDF0',Hair:'#F3F0EA',Body:'#EEF0EC'};
+const FLOW = [['welcome','Welcome'],['login','Sign in'],['signup','Create account'],['home','Home'],['shop','Shop & search'],['product','Product detail'],['wishlist','Saved'],['bag','Bag'],['checkout','Checkout'],['success','Order confirmed'],['profile','Profile']];
+const money = n => '$' + n.toFixed(2);
+const INK = '#000000', MUTED = '#707070', LINE = '#E4E4E4', ERR = '#C4001F';
+
+class Component extends DCLogic {
+  state = {
+    screen:'welcome', prev:'home', email:'', password:'', showPw:false, name:'', agree:false, errors:{}, loading:false,
+    cat:'All', q:'', sort:'Featured', pid:'p3', shade:0, qty:1, openHow:false,
+    wish:['p5'], bag:[], promo:'', promoApplied:false, promoMsg:'',
+    step:1, ship:{name:'Aria Chen',street:'24 Linden Street, Apt 3',city:'Brooklyn, NY',zip:'11211',phone:'(718) 555-0142'},
+    delivery:'standard', pay:'card', card:{num:'',exp:'',cvc:'',holder:'ARIA CHEN'}, coErr:{}, coErrMsg:'',
+    toast:'', toastOn:false, order:null,
+  };
+  scrollRef = React.createRef();
+
+  componentDidMount() {
+    const s = this.props.startScreen;
+    if (s && s !== 'welcome') this.jump(s);
+  }
+  componentDidUpdate(pp, ps) {
+    if ((ps.screen !== this.state.screen || ps.pid !== this.state.pid || ps.step !== this.state.step) && this.scrollRef.current) this.scrollRef.current.scrollTop = 0;
+    if (pp.startScreen !== this.props.startScreen && this.props.startScreen) this.jump(this.props.startScreen);
+  }
+  componentWillUnmount() { clearTimeout(this.tt); clearTimeout(this.lt); }
+
+  go = (screen, extra = {}) => this.setState(s => ({ screen, prev: s.screen === 'product' ? s.prev : s.screen, ...extra }));
+  jump = k => {
+    const extra = {};
+    if (k === 'checkout' && !this.state.bag.length) extra.bag = [{id:'p3',shade:'Terracotta',qty:1},{id:'p1',shade:null,qty:1}];
+    if (k === 'checkout') extra.step = 1;
+    if (k === 'success' && !this.state.order) extra.order = {no:'VL-48213',items:'2 items',eta:'Thu, Oct 1 – Mon, Oct 5',pay:'Visa •••• 4242',total:'$62.00'};
+    if (['home','shop','product','wishlist','bag','checkout','success','profile'].includes(k) && !this.state.name) extra.name = 'Aria Chen';
+    this.go(k, extra);
+  };
+  flash = msg => {
+    clearTimeout(this.tt);
+    this.setState({ toast: msg, toastOn: true });
+    this.tt = setTimeout(() => this.setState({ toastOn: false }), 1800);
+  };
+  toggleWish = id => e => {
+    e && e.stopPropagation();
+    const on = this.state.wish.includes(id);
+    this.setState(s => ({ wish: on ? s.wish.filter(x => x !== id) : [...s.wish, id] }));
+    this.flash(on ? 'Removed from saved' : 'Saved to wishlist');
+  };
+  addLine = (id, shade, qty) => this.setState(s => {
+    const i = s.bag.findIndex(l => l.id === id && l.shade === shade);
+    const bag = s.bag.slice();
+    if (i >= 0) bag[i] = { ...bag[i], qty: bag[i].qty + qty }; else bag.push({ id, shade, qty });
+    return { bag };
+  });
+  quickAdd = p => e => {
+    e && e.stopPropagation();
+    this.addLine(p.id, p.shades.length ? p.shades[0].name : null, 1);
+    this.flash(`${p.name} added to bag`);
+  };
+  openP = id => () => this.go('product', { pid: id, shade: 0, qty: 1, openHow: false });
+
+  dec(p, shadeIdx) {
+    const sh = SHAPES[p.shape];
+    const sel = p.shades.length ? p.shades[shadeIdx ?? 0] : null;
+    let capC = p.cap, bodyC = p.body;
+    if (sel && p.shape === 'lipstick') capC = sel.hex;
+    if (sel && (p.shape === 'compact' || p.shape === 'tube')) bodyC = sel.hex;
+    const w = this.state.wish.includes(p.id);
+    return { ...p, ...sh, capC, bodyC, priceS: money(p.price), catU: p.cat.toUpperCase(), reviewsS: p.reviews.toLocaleString(), hasShades: p.shades.length > 0,
+      heartFill: w ? '#D4002A' : 'none', heartStroke: w ? '#D4002A' : INK,
+      open: this.openP(p.id), toggleWish: this.toggleWish(p.id), quickAdd: this.quickAdd(p), revs: REVIEWS[p.cat] };
+  }
+  totals() {
+    const { bag, promoApplied, delivery, screen } = this.state;
+    const sub = bag.reduce((a, l) => a + PRODUCTS.find(p => p.id === l.id).price * l.qty, 0);
+    const disc = promoApplied ? Math.round(sub * 15) / 100 : 0;
+    const after = sub - disc;
+    const express = delivery === 'express' && (screen === 'checkout');
+    const ship = sub === 0 ? 0 : express ? 12 : after >= 50 ? 0 : 5.95;
+    return { sub, disc, ship, total: after + ship, after, subS: money(sub), discS: money(disc), shipS: ship === 0 ? 'Free' : money(ship), totalS: money(after + ship) };
+  }
+  validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+
+  doLogin = () => {
+    const { email, password } = this.state, errors = {};
+    if (!this.validEmail(email)) errors.email = 'Enter a valid email address';
+    if (password.length < 6) errors.password = 'Password must be at least 6 characters';
+    this.setState({ errors });
+    if (Object.keys(errors).length) return;
+    this.setState({ loading: true });
+    this.lt = setTimeout(() => this.go('home', { loading: false, name: this.state.name || 'Aria Chen' }), 900);
+  };
+  doSignup = () => {
+    const { email, password, name, agree } = this.state, errors = {};
+    if (name.trim().length < 2) errors.name = 'Tell us your name';
+    if (!this.validEmail(email)) errors.email = 'Enter a valid email address';
+    if (password.length < 6) errors.password = 'Password must be at least 6 characters';
+    if (!agree) errors.agree = 'Please accept the terms to continue';
+    this.setState({ errors });
+    if (Object.keys(errors).length) return;
+    this.setState({ loading: true });
+    this.lt = setTimeout(() => { this.go('home', { loading: false }); this.flash('Welcome to Velour — 10% off applied at checkout'); }, 900);
+  };
+  coNext = () => {
+    const { step, ship, pay, card } = this.state;
+    if (step === 1) {
+      const coErr = {}; Object.keys(ship).forEach(k => { if (!String(ship[k]).trim()) coErr[k] = true; });
+      this.setState({ coErr });
+      if (Object.keys(coErr).length) return this.flash('Please complete your address');
+      return this.setState({ step: 2 });
+    }
+    if (step === 2) return this.setState({ step: 3 });
+    if (pay === 'card') {
+      const coErr = {};
+      if (card.num.replace(/\s/g, '').length !== 16) coErr.num = true;
+      if (!/^(0[1-9]|1[0-2])\/\d\d$/.test(card.exp)) coErr.exp = true;
+      if (card.cvc.length < 3) coErr.cvc = true;
+      this.setState({ coErr, coErrMsg: Object.keys(coErr).length ? 'Check the highlighted card details' : '' });
+      if (Object.keys(coErr).length) return;
+    }
+    const t = this.totals();
+    const items = this.state.bag.reduce((a, l) => a + l.qty, 0);
+    this.setState({ loading: true });
+    this.lt = setTimeout(() => this.go('success', {
+      loading: false, bag: [], promoApplied: false, promo: '', promoMsg: '', step: 1,
+      order: { no: 'VL-' + (48000 + Math.floor(Math.random() * 999)), items: items + (items === 1 ? ' item' : ' items'),
+        eta: this.state.delivery === 'express' ? 'Wed, Sep 30' : 'Thu, Oct 1 – Mon, Oct 5',
+        pay: pay === 'apple' ? 'Apple Pay' : 'Card •••• ' + card.num.replace(/\s/g, '').slice(-4), total: t.totalS },
+    }), 1200);
+  };
+
+  renderVals() {
+    const S = this.state;
+    const is = {}; FLOW.forEach(([k]) => { is[k] = S.screen === k; });
+    const t = this.totals();
+    const bagCount = S.bag.reduce((a, l) => a + l.qty, 0);
+    const fullName = S.name.trim() || 'Aria Chen';
+    const firstName = fullName.split(' ')[0];
+    const all = PRODUCTS.map(p => this.dec(p));
+    const cur = this.dec(PRODUCTS.find(p => p.id === S.pid), S.shade);
+
+    let shopList = all.filter(p => (S.cat === 'All' || p.cat === S.cat) && (!S.q || (p.name + ' ' + p.cat + ' ' + p.line + ' ' + p.shades.map(s => s.name).join(' ')).toLowerCase().includes(S.q.toLowerCase())));
+    if (S.sort === 'Price') shopList = shopList.slice().sort((a, b) => a.price - b.price);
+    if (S.sort === 'Rating') shopList = shopList.slice().sort((a, b) => b.rating - a.rating);
+
+    const pwScore = S.password.length === 0 ? 0 : S.password.length < 6 ? 1 : /\d/.test(S.password) && S.password.length >= 8 ? 3 : 2;
+    const bar = i => pwScore >= i ? (pwScore === 1 ? '#D4002A' : pwScore === 2 ? '#C9A46A' : '#6E8F6B') : LINE;
+    const border = err => err ? ERR : LINE;
+    const shipLabels = { name:'Full name', street:'Street address', city:'City, State', zip:'ZIP code', phone:'Phone' };
+    const cardDigits = S.card.num.replace(/\s/g, '');
+    const remaining = 50 - t.after;
+    const tabColor = k => S.screen === k ? { fg: '#FFFFFF', pill: '#FFFFFF', ic: '#000000' } : { fg: '#8C8C8C', pill: 'transparent', ic: '#8C8C8C' };
+    const coLabels = ['Continue to delivery', 'Continue to payment', `Place order · ${t.totalS}`];
+
+    return {
+      is, t, statusDark: S.screen === 'welcome', showMap: this.props.showFlowMap ?? true,
+      flow: FLOW.map(([k, label], i) => ({ n: String(i + 1).padStart(2, '0'), label, go: () => this.jump(k), bg: S.screen === k ? INK : 'transparent', fg: S.screen === k ? '#FFFFFF' : INK })),
+      scrollRef: this.scrollRef,
+      goWelcome: () => this.go('welcome', { errors: {} }), goLogin: () => this.go('login', { errors: {} }), goSignup: () => this.go('signup', { errors: {} }),
+      goHome: () => this.go('home'), goShop: () => this.go('shop'), goBag: () => this.go('bag'), goWish: () => this.go('wishlist'), goProfile: () => this.go('profile'),
+      goCheckout: () => this.go('checkout', { step: 1, coErr: {}, coErrMsg: '' }),
+      back: () => this.go(S.prev || 'home'),
+      email: S.email, password: S.password, name: S.name,
+      errors: S.errors,
+      onEmail: e => this.setState({ email: e.target.value, errors: { ...S.errors, email: null } }),
+      onPassword: e => this.setState({ password: e.target.value, errors: { ...S.errors, password: null } }),
+      onName: e => this.setState({ name: e.target.value, errors: { ...S.errors, name: null } }),
+      emailBorder: border(S.errors.email), pwBorder: border(S.errors.password), nameBorder: border(S.errors.name),
+      pwType: S.showPw ? 'text' : 'password', pwLabel: S.showPw ? 'Hide' : 'Show', togglePw: () => this.setState({ showPw: !S.showPw }),
+      pwStrength: { a: bar(1), b: bar(2), c: bar(3) },
+      agreeBg: S.agree ? INK : '#FFFFFF', agreeBorder: S.errors.agree ? ERR : INK,
+      toggleAgree: () => this.setState({ agree: !S.agree, errors: { ...S.errors, agree: null } }),
+      doLogin: this.doLogin, doSignup: this.doSignup,
+      loginLabel: S.loading ? 'Signing in…' : 'Sign in', signupLabel: S.loading ? 'Creating account…' : 'Create account',
+      btnOpacity: S.loading ? 0.6 : 1,
+      social: () => { this.setState({ loading: true }); this.lt = setTimeout(() => this.go('home', { loading: false, name: S.name || 'Aria Chen' }), 700); },
+      forgot: () => this.flash(S.email ? `Reset link sent to ${S.email}` : 'Enter your email first'),
+      firstName, firstNameU: firstName.toUpperCase(), fullName, scrollPad: ['home','shop','wishlist','bag','profile'].includes(S.screen) ? 104 : 0, initial: firstName[0].toUpperCase(), emailShown: S.email || 'aria@velour.co',
+      bagCount, bagCountS: bagCount === 1 ? '1 item' : `${bagCount} items`, bagEmpty: bagCount === 0, bagHasItems: bagCount > 0,
+      openHero: () => this.go('shop', { cat: 'Fragrance' }),
+      catTiles: CATS.slice(1).map(c => ({ label: c, initial: c[0], tile: CAT_TILES[c], go: () => this.go('shop', { cat: c, q: '' }) })),
+      bestsellers: all.filter(p => p.best), newIn: all.filter(p => p.isNew),
+      q: S.q, onQ: e => this.setState({ q: e.target.value }), clearQ: () => this.setState({ q: '' }),
+      catChips: CATS.map(c => ({ label: c, go: () => this.setState({ cat: c }), bg: S.cat === c ? INK : '#FFFFFF', fg: S.cat === c ? '#FFFFFF' : INK, border: S.cat === c ? INK : LINE })),
+      sorts: ['Featured', 'Price', 'Rating'].map(s => ({ label: s, go: () => this.setState({ sort: s }), bg: S.sort === s ? '#FFFFFF' : 'transparent', shadow: S.sort === s ? '0 1px 3px rgba(0,0,0,.12)' : 'none' })),
+      shopList, shopEmpty: shopList.length === 0, shopCount: `${shopList.length} ${shopList.length === 1 ? 'product' : 'products'}`,
+      cur, shadeName: cur.shades.length ? cur.shades[S.shade].name : '',
+      shadeList: cur.shades.map((s, i) => ({ ...s, pick: () => this.setState({ shade: i }), ring: i === S.shade ? '0 0 0 3px #FFFFFF, 0 0 0 4.5px #000000' : 'inset 0 0 0 1px rgba(0,0,0,.06)' })),
+      openHow: S.openHow, howSign: S.openHow ? '−' : '+', toggleHow: () => this.setState({ openHow: !S.openHow }),
+      qty: S.qty, qtyDec: () => this.setState({ qty: Math.max(1, S.qty - 1) }), qtyInc: () => this.setState({ qty: Math.min(9, S.qty + 1) }),
+      addPrice: money(cur.price * S.qty),
+      addToBag: () => { this.addLine(cur.id, cur.shades.length ? cur.shades[S.shade].name : null, S.qty); this.flash(`${S.qty} × ${cur.name} added`); this.setState({ qty: 1 }); },
+      wishList: all.filter(p => S.wish.includes(p.id)), wishEmpty: S.wish.length === 0, wishCountS: S.wish.length === 1 ? '1 saved item' : `${S.wish.length} saved items`,
+      bagLines: S.bag.map((l, i) => {
+        const p = this.dec(PRODUCTS.find(x => x.id === l.id), Math.max(0, PRODUCTS.find(x => x.id === l.id).shades.findIndex(s => s.name === l.shade)));
+        const upd = q => this.setState(s => ({ bag: q <= 0 ? s.bag.filter((_, j) => j !== i) : s.bag.map((x, j) => j === i ? { ...x, qty: q } : x) }));
+        return { p, capC: p.capC, bodyC: p.bodyC, qty: l.qty, meta: [l.shade, p.size].filter(Boolean).join(' · '), lineS: money(p.price * l.qty),
+          inc: () => upd(l.qty + 1), dec: () => upd(l.qty - 1), remove: () => { upd(0); this.flash('Removed from bag'); }, open: this.openP(l.id) };
+      }),
+      freeShipMsg: remaining > 0 ? `You're ${money(remaining)} away from free shipping` : 'You\u2019ve unlocked free shipping',
+      freeShipPct: Math.min(100, Math.round((t.after / 50) * 100)),
+      promo: S.promo, onPromo: e => this.setState({ promo: e.target.value.toUpperCase(), promoMsg: '' }),
+      promoBtn: S.promoApplied ? 'Remove' : 'Apply',
+      applyPromo: () => {
+        if (S.promoApplied) return this.setState({ promoApplied: false, promo: '', promoMsg: '' });
+        if (S.promo.trim() === 'GLOW15') this.setState({ promoApplied: true, promoMsg: 'GLOW15 applied — 15% off' });
+        else this.setState({ promoMsg: S.promo ? 'That code isn\u2019t valid' : 'Enter a code' });
+      },
+      promoMsg: S.promoMsg, promoMsgColor: S.promoApplied ? '#4F6B4C' : ERR,
+      co: { s1: S.step === 1, s2: S.step === 2, s3: S.step === 3 },
+      steps: ['Address', 'Delivery', 'Payment'].map((label, i) => ({ n: i + 1, label, bar: S.step >= i + 1 ? INK : LINE, fg: S.step >= i + 1 ? INK : MUTED, go: () => { if (i + 1 < S.step) this.setState({ step: i + 1 }); } })),
+      coBack: () => S.step > 1 ? this.setState({ step: S.step - 1 }) : this.go('bag'),
+      goStep1: () => this.setState({ step: 1 }),
+      ship: S.ship,
+      shipFields: Object.keys(shipLabels).map(k => ({ label: shipLabels[k], value: S.ship[k], border: border(S.coErr[k]), onChange: e => this.setState({ ship: { ...S.ship, [k]: e.target.value }, coErr: { ...S.coErr, [k]: false } }) })),
+      deliveries: [
+        { k: 'standard', label: 'Standard', eta: 'Thu, Oct 1 – Mon, Oct 5', priceS: t.after >= 50 ? 'Free' : '$5.95' },
+        { k: 'express', label: 'Express', eta: 'Wed, Sep 30', priceS: '$12.00' },
+      ].map(d => ({ ...d, pick: () => this.setState({ delivery: d.k }), border: S.delivery === d.k ? INK : LINE, dot: S.delivery === d.k ? INK : 'transparent' })),
+      payOpts: [{ k: 'card', label: 'Card' }, { k: 'apple', label: ' Pay' }].map(o => ({ ...o, pick: () => this.setState({ pay: o.k, coErrMsg: '' }), border: S.pay === o.k ? INK : LINE })),
+      payCard: S.pay === 'card', payApple: S.pay === 'apple',
+      card: S.card, cardBorder: { num: border(S.coErr.num), exp: border(S.coErr.exp), cvc: border(S.coErr.cvc) },
+      onCardNum: e => { const d = e.target.value.replace(/\D/g, '').slice(0, 16); this.setState({ card: { ...S.card, num: d.replace(/(.{4})/g, '$1 ').trim() }, coErr: { ...S.coErr, num: false } }); },
+      onCardExp: e => { let d = e.target.value.replace(/\D/g, '').slice(0, 4); if (d.length > 2) d = d.slice(0, 2) + '/' + d.slice(2); this.setState({ card: { ...S.card, exp: d }, coErr: { ...S.coErr, exp: false } }); },
+      onCardCvc: e => this.setState({ card: { ...S.card, cvc: e.target.value.replace(/\D/g, '').slice(0, 4) }, coErr: { ...S.coErr, cvc: false } }),
+      cardPreview: (cardDigits + '•'.repeat(16 - cardDigits.length)).replace(/(.{4})/g, '$1 ').trim(),
+      expPreview: S.card.exp || 'MM/YY', cardBrand: cardDigits[0] === '4' ? 'VISA' : cardDigits[0] === '5' ? 'MASTERCARD' : '',
+      coErrMsg: S.coErrMsg, coNext: this.coNext,
+      coBtnLabel: S.loading ? 'Placing order…' : coLabels[S.step - 1], coBtnBg: S.step === 3 ? '#D4002A' : INK,
+      order: S.order, track: () => this.flash('Tracking link sent by text'),
+      profileRows: [
+        { label: 'Orders', detail: S.order ? '1 active' : 'None yet', go: () => this.flash('Order history') },
+        { label: 'Saved items', detail: String(S.wish.length), go: () => this.go('wishlist') },
+        { label: 'Addresses', detail: S.ship.city, go: () => this.flash('Address book') },
+        { label: 'Beauty profile', detail: 'Combination · Sand', go: () => this.flash('Beauty profile') },
+        { label: 'Notifications', detail: 'On', go: () => this.flash('Notification settings') },
+      ],
+      logout: () => this.go('login', { password: '', errors: {}, order: S.order }),
+      showTabs: ['home', 'shop', 'wishlist', 'bag', 'profile'].includes(S.screen),
+      tab: { home: tabColor('home'), shop: tabColor('shop'), wishlist: tabColor('wishlist'), bag: tabColor('bag'), profile: tabColor('profile') },
+      toast: S.toast, toastOp: S.toastOn ? 1 : 0, toastY: S.toastOn ? 0 : -12,
+    };
+  }
+}
+</script>
+</body>
+</html>
